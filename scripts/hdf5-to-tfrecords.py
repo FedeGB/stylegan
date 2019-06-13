@@ -39,7 +39,7 @@ mydata = dd.io.load("LLD-icon.hdf5")
 
 n_observations = len(mydata["labels"]["resnet"]["rc_32"])  # how many items are in your dataset
 # loop through hdf5 of examples, save to tfrecord
-with tf.io.TFRecordWriter(str('LLD-icon.tfrecord')) as writer:
+with tf.io.TFRecordWriter(str('LLD-icon.tfrecords')) as writer:
     # for each example
     for exi in tqdm(range(n_observations)):
         # create an item in the datset converted to the correct formats (float, int, byte)
@@ -49,7 +49,7 @@ with tf.io.TFRecordWriter(str('LLD-icon.tfrecord')) as writer:
                     "data": mydata["labels"]["resnet"]["rc_32"][exi],
                     "_type": _int64_feature,
                 },
-                "train_images": {
+                "data": {
                     "data": mydata["data"][exi].flatten().tobytes(),
                     "_type": _bytes_feature,
                 },
